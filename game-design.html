@@ -1,0 +1,178 @@
+<!-- Copyright © 2026 Designwithrahma / Rahmathullah. All rights reserved. -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="author" content="Designwithrahma / Rahmathullah" />
+  <meta name="description" content="Explore the visual design, gameplay elements, interface, animation states, music, and sound systems behind MONO//SHIFT." />
+  <meta name="copyright" content="Copyright © 2026 Designwithrahma / Rahmathullah. All rights reserved." />
+  <title>MONO//SHIFT — Game Design &amp; Systems</title>
+  <style>
+    :root { --paper:#faf9f5; --ink:#1d232b; --muted:#68717d; --coral:#f06458; --cyan:#079b9b; --white:#fff; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--paper); font-family:Inter,system-ui,sans-serif; }
+    .back,.music-control { position:fixed; z-index:20; top:16px; min-height:44px; border:1px solid rgba(29,35,43,.12); border-radius:999px; color:var(--ink); background:rgba(255,255,255,.95); box-shadow:0 10px 26px rgba(29,35,43,.11); font:900 9px/1 system-ui; letter-spacing:.7px; }
+    .back { left:16px; display:inline-flex; align-items:center; padding:0 16px; text-decoration:none; }
+    .music-control { right:16px; padding:0 16px; cursor:pointer; }
+    .wrap { width:min(1120px,calc(100% - 32px)); margin:auto; padding:76px 0 80px; }
+    header { padding:32px 0 40px; border-bottom:1px solid rgba(29,35,43,.11); }
+    .tag { color:var(--coral); font-size:10px; font-weight:900; letter-spacing:2px; }
+    h1 { max-width:850px; margin:12px 0; font-size:clamp(38px,7vw,72px); line-height:.94; letter-spacing:-3px; }
+    .intro { max-width:800px; color:var(--muted); font-size:15px; line-height:1.7; }
+    .audit { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:26px; }
+    .audit-card { padding:17px; border-radius:16px; background:white; border:1px solid rgba(29,35,43,.08); }
+    .audit-card b,.audit-card small { display:block; }
+    .audit-card b { color:var(--cyan); font-size:21px; }
+    .audit-card small { margin-top:4px; color:var(--muted); font-size:9px; font-weight:800; letter-spacing:.6px; }
+    .section-nav { position:sticky; z-index:8; top:10px; display:flex; flex-wrap:wrap; gap:7px; margin:22px 0 0; padding:8px; border:1px solid rgba(29,35,43,.09); border-radius:999px; background:rgba(255,255,255,.88); box-shadow:0 10px 25px rgba(29,35,43,.07); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
+    .section-nav a { padding:8px 11px; border-radius:999px; color:var(--muted); font-size:9px; font-weight:850; letter-spacing:.55px; text-decoration:none; }
+    .section-nav a:hover,.section-nav a:focus-visible { color:white; background:var(--ink); outline:0; }
+    section { padding-top:48px; scroll-margin-top:72px; }
+    h2 { margin:0 0 8px; font-size:28px; }
+    .sub { max-width:800px; margin:0 0 24px; color:var(--muted); line-height:1.6; }
+    .notice { padding:16px 18px; border-radius:14px; color:#075f5f; background:rgba(7,155,155,.10); font-size:12px; font-weight:750; line-height:1.6; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+    .card { overflow:hidden; padding:12px; border:1px solid rgba(29,35,43,.08); border-radius:18px; background:white; box-shadow:0 10px 28px rgba(29,35,43,.06); }
+    .demo { display:block; width:100%; height:auto; border-radius:12px; background:#f7f6f1; }
+    .card h3 { margin:13px 3px 5px; font-size:12px; }
+    .card p { min-height:30px; margin:0 3px 8px; color:var(--muted); font-size:10px; line-height:1.5; }
+    .runtime-label { display:inline-block; margin:0 3px 3px; padding:5px 7px; border-radius:6px; color:#087b7b; background:rgba(7,155,155,.09); font:800 8px/1 ui-monospace,monospace; }
+    .external-card { padding:24px; border:1px solid rgba(29,35,43,.09); border-radius:20px; background:white; box-shadow:0 14px 35px rgba(29,35,43,.07); }
+    .external-card strong,.external-card small,.external-card code { display:block; }
+    .external-card strong { font-size:18px; }
+    .external-card small { margin:6px 0 16px; color:var(--muted); }
+    .external-card code { margin-bottom:18px; padding:9px; border-radius:8px; color:var(--cyan); background:var(--paper); }
+    audio { width:100%; }
+    .ui-board { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    .ui-demo { min-height:170px; padding:22px; border:1px solid rgba(29,35,43,.08); border-radius:20px; background:white; }
+    .ui-demo h3 { margin:0 0 17px; font-size:11px; letter-spacing:1px; }
+    .button-demo { display:inline-flex; align-items:center; justify-content:center; min-width:210px; height:52px; border-radius:26px; color:white; background:var(--ink); font-size:12px; font-weight:900; letter-spacing:1px; }
+    .phase-pill { display:inline-flex; align-items:center; justify-content:center; min-width:150px; height:38px; border-radius:20px; color:white; background:var(--coral); font-size:10px; font-weight:900; }
+    .level-demo { width:100%; max-width:300px; padding:16px; border:2px solid var(--cyan); border-radius:17px; background:white; }
+    .level-demo b,.level-demo span,.level-demo small { display:block; }
+    .level-demo span { color:var(--cyan); font-size:9px; font-weight:900; }
+    .level-demo b { margin:8px 0; }
+    .level-demo small { color:var(--muted); }
+    .mobile-row { display:flex; gap:10px; }
+    .touch { display:grid; place-items:center; width:58px; height:58px; border:1px solid rgba(29,35,43,.16); border-radius:18px; background:var(--paper); font-size:20px; font-weight:900; }
+    .touch.phase { color:white; background:var(--coral); }
+    .sound-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+    .sound { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:16px; border:1px solid rgba(29,35,43,.08); border-radius:15px; background:white; }
+    .sound b,.sound small { display:block; }
+    .sound small { margin-top:5px; color:var(--muted); font-size:9px; }
+    .sound button { width:44px; height:44px; flex:0 0 auto; border:0; border-radius:50%; color:white; background:var(--ink); cursor:pointer; transition:.15s ease; }
+    .sound button:hover,.sound button.playing { background:var(--cyan); transform:scale(1.06); }
+    footer { display:flex; justify-content:space-between; gap:20px; margin-top:55px; padding:24px; border-radius:18px; color:white; background:var(--ink); font-size:11px; }
+    footer span { color:rgba(255,255,255,.67); }
+    @media(max-width:700px) { .audit,.ui-board { grid-template-columns:1fr 1fr; } .back,.music-control { top:8px; min-height:32px; font-size:8px; } .back { left:8px; } .music-control { right:8px; } }
+    @media(max-width:480px) { .audit,.ui-board { grid-template-columns:1fr; } footer { display:block; } footer span { display:block; margin-top:8px; } }
+  </style>
+</head>
+<body>
+  <a class="back" href="index.html">← BACK TO HOME</a>
+  <button class="music-control" id="music-control" type="button">♪ MUSIC 10%</button>
+  <audio id="page-music" src="assets/audio/background-calm-loop.wav" loop autoplay preload="auto"></audio>
+
+  <main class="wrap">
+    <header>
+      <div class="tag">MONO//SHIFT — DESIGN &amp; SYSTEMS</div>
+      <h1>INSIDE MONO//SHIFT</h1>
+      <p class="intro">Explore the visual language and interactive systems behind the game. This showcase breaks down the character states, phase-based platforms, hazards, collectibles, interface components, sound effects, and original background track that shape the complete player experience.</p>
+      <div class="audit">
+        <div class="audit-card"><b>1</b><small>ORIGINAL MUSIC TRACK</small></div>
+        <div class="audit-card"><b>4</b><small>PLAYER STATES</small></div>
+        <div class="audit-card"><b>6</b><small>GAMEPLAY ELEMENTS</small></div>
+        <div class="audit-card"><b>6</b><small>GAMEPLAY SOUND EFFECTS</small></div>
+      </div>
+    </header>
+    <nav class="section-nav" aria-label="Game design sections"><a href="#external">MUSIC</a><a href="#characters">PLAYER</a><a href="#elements">GAMEPLAY</a><a href="#interface">INTERFACE</a><a href="#sounds">AUDIO</a></nav>
+
+    <section id="external">
+      <h2>Original Background Music</h2>
+      <p class="sub">A calm ambient loop supports the game’s focused rhythm and minimalist atmosphere without distracting from movement and timing.</p>
+      <article class="external-card">
+        <strong>background-calm-loop.wav</strong>
+        <small>24-second ambient loop designed for focused, uninterrupted play</small>
+        <code>assets/audio/background-calm-loop.wav</code>
+        <audio id="music-preview" controls preload="none" src="assets/audio/background-calm-loop.wav"></audio>
+      </article>
+    </section>
+
+    <section id="characters">
+      <h2>Player Movement States</h2>
+      <p class="sub">The player reacts visually to movement. Direction, lean, bounce, eye position, and phase colour work together to make every action clear at a glance.</p>
+      <div class="grid">
+        <article class="card"><canvas class="demo" width="240" height="140" data-demo="idle"></canvas><h3>Idle</h3><p>A stable grounded pose gives the player a clear resting state.</p><span class="runtime-label">drawPlayer() · Canvas</span></article>
+        <article class="card"><canvas class="demo" width="240" height="140" data-demo="run-right"></canvas><h3>Run Right</h3><p>A forward lean communicates speed and direction during movement.</p><span class="runtime-label">vx &gt; 0 · facing 1</span></article>
+        <article class="card"><canvas class="demo" width="240" height="140" data-demo="run-left"></canvas><h3>Run Left</h3><p>The pose mirrors naturally while preserving the same readable motion.</p><span class="runtime-label">vx &lt; 0 · facing -1</span></article>
+        <article class="card"><canvas class="demo" width="240" height="140" data-demo="jump"></canvas><h3>Jump</h3><p>A compact airborne pose makes take-off, height, and landing easy to read.</p><span class="runtime-label">grounded false · vy -420</span></article>
+      </div>
+    </section>
+
+    <section id="elements">
+      <h2>Gameplay Elements</h2>
+      <p class="sub">Every gameplay object follows the same minimalist visual system, allowing phase, danger, rewards, and objectives to remain immediately recognizable.</p>
+      <div class="grid">
+        <article class="card"><canvas class="demo" width="240" height="140" data-demo="platforms"></canvas><h3>Phase Platforms</h3><p>Coral and Cyan platforms become solid only when their matching phase is active.</p><span class="runtime-label">drawPlatform()</span></article>
+        <article class="card"><canvas class="demo" width="240" height="140" data-demo="signal"></canvas><h3>Signal Collectible</h3><p>Optional signals reward exploration, precision, and stronger level scores.</p><span class="runtime-label">drawShard()</span></article>
+        <article class="card"><canvas class="demo" width="240" height="140" data-demo="spikes"></canvas><h3>Spike Hazard</h3><p>A clear high-contrast shape communicates danger before the player commits.</p><span class="runtime-label">drawHazard()</span></article>
+        <article class="card"><canvas class="demo" width="240" height="140" data-demo="exit-coral"></canvas><h3>Coral Exit</h3><p>The exit activates only when the player reaches it in the Coral phase.</p><span class="runtime-label">drawGoal() · phase 0</span></article>
+        <article class="card"><canvas class="demo" width="240" height="140" data-demo="exit-cyan"></canvas><h3>Cyan Exit</h3><p>The Cyan variation reinforces the final phase decision at the end of a route.</p><span class="runtime-label">drawGoal() · phase 1</span></article>
+        <article class="card"><canvas class="demo" width="240" height="140" data-demo="particles"></canvas><h3>Feedback Particles</h3><p>Subtle bursts reinforce jumps, phase changes, collections, and completion.</p><span class="runtime-label">burst() · particles[]</span></article>
+      </div>
+    </section>
+
+    <section id="interface">
+      <h2>Interface Components</h2>
+      <p class="sub">The interface keeps important information visible while preserving the game’s clean visual identity across menu, gameplay, scorecard, and mobile views.</p>
+      <div class="ui-board">
+        <div class="ui-demo"><h3>PRIMARY ACTION</h3><div class="button-demo">PLAY FROM LEVEL 01</div></div>
+        <div class="ui-demo"><h3>PHASE STATUS</h3><div class="phase-pill">CORAL PHASE</div></div>
+        <div class="ui-demo"><h3>LEVEL CARD</h3><div class="level-demo"><span>LEVEL 02</span><b>CROSSFADE</b><small>★★☆ &nbsp; 3,420 PTS</small></div></div>
+        <div class="ui-demo"><h3>MOBILE CONTROLS</h3><div class="mobile-row"><div class="touch">←</div><div class="touch">→</div><div class="touch">↑</div><div class="touch phase">◆</div></div></div>
+      </div>
+    </section>
+
+    <section id="sounds">
+      <h2>Gameplay Sound Effects</h2>
+      <p class="sub">Short, responsive sound cues give each action its own identity. The background music pauses briefly while a sound is previewed.</p>
+      <p class="notice" id="sound-status" aria-live="polite">Select a sound to preview its role in the game.</p>
+      <div class="sound-grid" style="margin-top:14px">
+        <div class="sound"><div><b>UI / Restart</b><small>130 Hz · square · 0.07 s</small></div><button data-sound="ui" aria-label="Play UI and restart sound">▶</button></div>
+        <div class="sound"><div><b>Jump</b><small>210 Hz · square · 0.05 s</small></div><button data-sound="jump" aria-label="Play jump sound">▶</button></div>
+        <div class="sound"><div><b>Phase switch</b><small>360 / 520 Hz · sine</small></div><button data-sound="phase" aria-label="Play phase-switch sound">▶</button></div>
+        <div class="sound"><div><b>Signal collect</b><small>640 Hz · sine · 0.07 s</small></div><button data-sound="collect" aria-label="Play signal-collect sound">▶</button></div>
+        <div class="sound"><div><b>Death</b><small>92 Hz · sawtooth · 0.18 s</small></div><button data-sound="death" aria-label="Play death sound">▶</button></div>
+        <div class="sound"><div><b>Level complete</b><small>392 / 523 / 659 Hz chord</small></div><button data-sound="complete" aria-label="Play level-complete sound">▶</button></div>
+      </div>
+    </section>
+
+    <div class="notice"><strong>MONO//SHIFT</strong> uses a consistent code-driven visual system, combining responsive player animation, phase-based level elements, focused interface design, and reactive audio feedback.</div>
+    <footer><b>CONCEPT, DIRECTION &amp; TESTING BY RAHMATHULLAH / DESIGNWITHRAHMA</b><span>© 2026 ALL RIGHTS RESERVED</span></footer>
+  </main>
+
+  <script>
+    (() => {
+      const C = { paper:'#faf9f5', ink:'#1d232b', muted:'#68717d', coral:'#f06458', cyan:'#079b9b', white:'#fff' };
+      const rr = (ctx,x,y,w,h,r) => { const q=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+q,y); ctx.arcTo(x+w,y,x+w,y+h,q); ctx.arcTo(x+w,y+h,x,y+h,q); ctx.arcTo(x,y+h,x,y,q); ctx.arcTo(x,y,x+w,y,q); ctx.closePath(); };
+      const fillRound = (ctx,x,y,w,h,r,color) => { rr(ctx,x,y,w,h,r); ctx.fillStyle=color; ctx.fill(); };
+      const stage = canvas => { const ctx=canvas.getContext('2d'); ctx.fillStyle=C.paper; ctx.fillRect(0,0,240,140); ctx.fillStyle='rgba(29,35,43,.055)'; for(let x=12;x<240;x+=24)for(let y=12;y<140;y+=24){ctx.beginPath();ctx.arc(x,y,1,0,Math.PI*2);ctx.fill();} return ctx; };
+      const player = (ctx,{vx=0,vy=0,grounded=true,facing=1,phase=0}={}) => { const w=26,h=34,x=107,y=68; const lean=Math.max(-.09,Math.min(.09,vx/2400)); const bounce=grounded?0:Math.min(2,Math.abs(vy)/320); ctx.save(); ctx.translate(x+w/2,y+h/2); ctx.rotate(lean); ctx.shadowColor='rgba(29,35,43,.18)';ctx.shadowBlur=10;ctx.shadowOffsetY=6;fillRound(ctx,-w/2,-h/2+bounce,w,h-bounce,8,C.ink);ctx.shadowColor='transparent';ctx.fillStyle=phase?C.cyan:C.coral;ctx.fillRect(-w/2+5,h/2-8,w-10,3);ctx.fillStyle=C.white;fillRound(ctx,facing>0?5:-9,-7,4,6,2,C.white);ctx.restore();ctx.fillStyle=C.ink;ctx.fillRect(65,106,110,10); };
+      document.querySelectorAll('canvas[data-demo]').forEach(canvas => { const ctx=stage(canvas),type=canvas.dataset.demo; if(type==='idle')player(ctx,{}); if(type==='run-right')player(ctx,{vx:240,facing:1,phase:1}); if(type==='run-left')player(ctx,{vx:-240,facing:-1}); if(type==='jump')player(ctx,{vy:-420,grounded:false,phase:1}); if(type==='platforms'){fillRound(ctx,18,28,90,18,7,C.ink);fillRound(ctx,132,28,90,18,7,C.coral);ctx.globalAlpha=.38;ctx.setLineDash([7,7]);ctx.strokeStyle=C.cyan;ctx.lineWidth=2;rr(ctx,65,87,110,18,7);ctx.stroke();} if(type==='signal'){ctx.save();ctx.translate(120,70);ctx.rotate(Math.PI/4);ctx.shadowColor=C.coral;ctx.shadowBlur=14;fillRound(ctx,-13,-13,26,26,5,C.white);ctx.strokeStyle=C.coral;ctx.lineWidth=4;rr(ctx,-13,-13,26,26,5);ctx.stroke();ctx.restore();} if(type==='spikes'){ctx.fillStyle=C.ink;ctx.beginPath();ctx.moveTo(20,105);for(let x=20;x<220;x+=22){ctx.lineTo(x+11,58);ctx.lineTo(x+22,105);}ctx.fill();} if(type.startsWith('exit')){const color=type.endsWith('cyan')?C.cyan:C.coral;ctx.lineWidth=6;ctx.strokeStyle=C.ink;ctx.beginPath();ctx.moveTo(88,112);ctx.lineTo(88,54);ctx.arc(120,54,32,Math.PI,0);ctx.lineTo(152,112);ctx.stroke();ctx.fillStyle=color+'28';ctx.fillRect(95,56,50,56);ctx.fillStyle=color;ctx.beginPath();ctx.arc(140,83,4,0,Math.PI*2);ctx.fill();ctx.fillStyle=C.ink;ctx.fillRect(60,112,120,12);} if(type==='particles'){for(let i=0;i<22;i++){const a=i/22*Math.PI*2,r=18+(i%5)*7;ctx.fillStyle=i%2?C.coral:C.cyan;ctx.globalAlpha=.35+(i%4)*.15;ctx.beginPath();ctx.arc(120+Math.cos(a)*r,70+Math.sin(a)*r,2+(i%3),0,Math.PI*2);ctx.fill();}} });
+
+      let audioCtx=null;
+      const ensureAudio=async()=>{const AudioEngine=window.AudioContext||window.webkitAudioContext;if(!AudioEngine)throw new Error('Web Audio is not supported');audioCtx||=new AudioEngine();if(audioCtx.state==='suspended')await audioCtx.resume();return audioCtx;};
+      const beep=async(f,d,type='sine',volume=.02)=>{try{const engine=await ensureAudio(),now=engine.currentTime+.01,o=engine.createOscillator(),g=engine.createGain();o.type=type;o.frequency.setValueAtTime(f,now);g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(volume,now+.008);g.gain.exponentialRampToValueAtTime(.0001,now+d);o.connect(g).connect(engine.destination);o.start(now);o.stop(now+d+.02);}catch(error){console.error(error);}};
+
+      const music=document.getElementById('page-music'),control=document.getElementById('music-control'),preview=document.getElementById('music-preview'),back=document.querySelector('.back'),embedded=parent!==window;let wanted=true;music.volume=.10;const pageOrigin=window.location.origin;const parentTargetOrigin=pageOrigin==='null'?'*':pageOrigin;
+      const pauseMusicForSound=duration=>{if(embedded)parent.postMessage({type:'monoshift-preview-audio-start'},parentTargetOrigin);else music.pause();window.setTimeout(()=>{if(embedded)parent.postMessage({type:'monoshift-preview-audio-stop'},parentTargetOrigin);else if(wanted)music.play().catch(()=>{});},duration);};
+      const soundStatus=document.getElementById('sound-status');
+      const soundNames={ui:'UI / Restart',jump:'Jump',phase:'Phase switch',collect:'Signal collect',death:'Death',complete:'Level complete'};
+      document.querySelectorAll('[data-sound]').forEach(button=>button.addEventListener('click',async()=>{const s=button.dataset.sound,engine=await ensureAudio().catch(()=>null);if(!engine){soundStatus.textContent='Web Audio is unavailable in this browser.';return;}soundStatus.textContent=`Playing: ${soundNames[s]}`;button.classList.add('playing');button.textContent='♪';const duration=s==='complete'?520:s==='death'?300:s==='phase'?260:190;pauseMusicForSound(duration);if(s==='ui')beep(130,.07,'square',.025);if(s==='jump')beep(210,.05,'square',.02);if(s==='phase'){beep(360,.055,'sine',.025);setTimeout(()=>beep(520,.055,'sine',.025),70);}if(s==='collect')beep(640,.07,'sine',.025);if(s==='death')beep(92,.18,'sawtooth',.035);if(s==='complete'){beep(392,.24,'sine',.018);setTimeout(()=>beep(523,.22,'sine',.016),70);setTimeout(()=>beep(659,.28,'sine',.014),140);}setTimeout(()=>{button.classList.remove('playing');button.textContent='▶';soundStatus.textContent='Select a sound to preview its role in the game.';},duration);}));
+      if(embedded){music.pause();control.style.display='none';back.onclick=e=>{e.preventDefault();parent.postMessage({type:'monoshift-show-home'},parentTargetOrigin)};preview.onplay=()=>parent.postMessage({type:'monoshift-preview-audio-start'},parentTargetOrigin);const resume=()=>parent.postMessage({type:'monoshift-preview-audio-stop'},parentTargetOrigin);preview.onpause=resume;preview.onended=resume;return;}
+      const play=()=>wanted&&music.play().catch(()=>control.textContent='♪ TAP FOR MUSIC');control.onclick=()=>{wanted=!wanted;wanted?play():(music.pause(),control.textContent='♪ MUSIC OFF')};preview.onplay=()=>music.pause();preview.onpause=()=>wanted&&play();play();
+    })();
+  </script>
+</body>
+</html>

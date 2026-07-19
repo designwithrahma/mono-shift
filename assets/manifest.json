@@ -1,0 +1,25 @@
+{
+  "project": "MONO//SHIFT",
+  "release": "github-showcase-1.0",
+  "releaseDate": "2026-07-19",
+  "externalRuntimeAssets": [
+    {
+      "file": "audio/background-calm-loop.wav",
+      "sha256": "2a182e35fcf20586f4f9886051a346f341ff31ed31aeef085f59b6ebf4e6638f",
+      "purpose": "Looping background music"
+    }
+  ],
+  "runtimeGeneratedContent": [
+    "player",
+    "platforms",
+    "phase states",
+    "exit doors",
+    "signals",
+    "spikes",
+    "particles",
+    "HUD",
+    "menus",
+    "mobile controls",
+    "gameplay sound effects"
+  ]
+}
