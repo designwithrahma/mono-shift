@@ -67,6 +67,16 @@
     footer span { color:rgba(255,255,255,.67); }
     @media(max-width:700px) { .audit,.ui-board { grid-template-columns:1fr 1fr; } .back,.music-control { top:8px; min-height:32px; font-size:8px; } .back { left:8px; } .music-control { right:8px; } }
     @media(max-width:480px) { .audit,.ui-board { grid-template-columns:1fr; } footer { display:block; } footer span { display:block; margin-top:8px; } }
+
+    /* Keep the existing examples; quiet the surrounding showcase chrome. */
+    .back,.music-control,.section-nav { border-radius:8px; box-shadow:none; backdrop-filter:none; -webkit-backdrop-filter:none; }
+    .back,.music-control,.section-nav a { font-weight:650; letter-spacing:0; }
+    .section-nav a { font-size:11px; border-radius:6px; }
+    .card,.external-card { box-shadow:none; border-radius:12px; }
+    .audit-card,.ui-demo,.notice,.sound { border-radius:10px; }
+    .card p { font-size:12px; line-height:1.5; }
+    .sound button:hover,.sound button.playing { transform:none; }
+    @media(max-width:700px) { .back,.music-control { min-height:44px; font-size:10px; } }
   </style>
 </head>
 <body>

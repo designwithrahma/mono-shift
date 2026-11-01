@@ -14,25 +14,25 @@
     "freeTextInput": false,
     "externalJavaScriptDependencies": false
   },
-  "note": "SHA-256 hashes verify file identity and integrity. They do not independently prove legal ownership.",
+  "note": "SHA-256 hashes verify current file identity and integrity, not legal ownership. The initial Git commit omitted four deployment files listed in the original manifest; these were recreated for the responsive UI update and are not claimed to be the original files.",
   "files": {
-    ".github/workflows/static-audit.yml": "5de668cccaadf2818eee21e1d75cd4e365d46211a62e914581fd04521b9b97ae",
-    ".gitignore": "df357381f101b2aca3bd47450096ff84b8ba7004c60830a28fa58c64346497f7",
-    ".htaccess": "c65f695663282696aafcf905d9dadb49267e574e35447703ebd586e96e1ce851",
+    ".github/workflows/static-audit.yml": "13b850646bee3088b73e4905a4a2b133a1323c28ed856ed91f574e0cfb1160bb",
+    ".gitignore": "9e7695b7b1846584b61a0e93ddb80de41f2739b9bb9bcdf528087246c7f4c568",
+    ".htaccess": "3e753a8fef3e622125616554d89ede409b5518fb2210512fda44534be61cfea7",
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "404.html": "35d4381ec9c2b45812cd8465f2c157a97c3fdecc816164cd5859ba2020168d99",
     "ATTRIBUTION.md": "2d610394994cb76eeb2aa565cb84e055f0fbd8f99e7dfbf218cf30da60e1db29",
     "AUDIT-REPORT.md": "2b2c96add6e1e07c99b8bd8f570e6e2acebd7be5f9ceac746a504d2c279f4023",
     "COPYRIGHT.md": "ca6785ff0ca7599b09f7d9875082cb0e2a735477685b64d690f16e8280c9d749",
     "LICENSE": "56cb58d2df64a90b8292535ad68a782f4fea0dc521ab90f7fd5db1b0e184833e",
-    "README.md": "09544bffbeafd62a363c3690bd0001eb3191e1d5b9cd86d54c0f579c7bd777a9",
+    "README.md": "bdfe6c71fb945b80fde0bae062c6bac8f943df79b1b039c3a5a497da1d9583aa",
     "SECURITY.md": "98d8a8c11cf9e0dd34e42c7c6ddb8266a9391c41a6fac63149e79569642d235c",
     "assets/audio/README-LICENSE.txt": "891551bae23a6fb5df21d3cb13992a14c99b00515ce9e09b3cf009b32c81311f",
     "assets/audio/background-calm-loop.wav": "2a182e35fcf20586f4f9886051a346f341ff31ed31aeef085f59b6ebf4e6638f",
     "assets/manifest.json": "36820aa811ee01cb80cd4c41f42f1dce1eb391c32682538dfc9e1eeec2901e15",
-    "game-design.html": "cc0821a7561f2b3bf41b2038864f30987851a36199c4e6f8af28c76bdd6f0746",
-    "game.html": "fb2f919494028da60a45f0164c0eb6f9455684c31784083ed3a50f80a4a78d16",
-    "index.html": "61599f3ae268f6a4bb988cf55e3497bc8b42e9539aeca662715dbd4179de7e46",
+    "game-design.html": "bffc949eceb05fec0afe612c68c460d30066649ff40bf27b5f5a5a7a9e601cdc",
+    "game.html": "df612be17e0df3f9edada0154d9d0aa8db6186341e888ec84a9591fe09414b36",
+    "index.html": "f3ee8c6108a46d6161f670d6d6c2a148c944f8000ca07f22a381ec09b4b28447",
     "tools/verify.py": "51d8f34fbd491b13cd50d0e11932fe28f737c29bc0b05d704497931b71cba941"
   }
 }

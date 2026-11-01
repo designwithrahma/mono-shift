@@ -12,64 +12,62 @@
   <meta name="rights" content="All rights reserved. Unauthorized copying and false authorship claims are prohibited." />
   <title>MONO//SHIFT — Phase-Shifting Platformer</title>
   <style>
-    :root { --paper:#faf9f5; --ink:#1d232b; --muted:#68717d; --coral:#f06458; --cyan:#079b9b; }
-    * { box-sizing: border-box; }
-    body { margin:0; min-height:100vh; display:grid; place-items:center; padding:28px; background:radial-gradient(circle at 15% 10%,rgba(240,100,88,.09),transparent 30%),radial-gradient(circle at 85% 90%,rgba(7,155,155,.09),transparent 30%),var(--paper); color:var(--ink); font-family:Inter,system-ui,sans-serif; }
-    main { width:min(980px,100%); padding:clamp(26px,5vw,58px); border:1px solid rgba(29,35,43,.10); border-radius:30px; background:rgba(255,255,255,.70); box-shadow:0 28px 80px rgba(29,35,43,.10); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
-    .tag { color:var(--coral); font-size:10px; font-weight:900; letter-spacing:2px; }
-    h1 { margin:12px 0 10px; font-size:clamp(46px,8vw,82px); line-height:.92; letter-spacing:-4px; }
-    .intro { max-width:720px; margin:0; color:var(--muted); line-height:1.7; }
-    .feature-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
-    .feature-row span { padding:8px 11px; border:1px solid rgba(29,35,43,.09); border-radius:999px; color:var(--muted); background:rgba(255,255,255,.86); font-size:9px; font-weight:850; letter-spacing:.55px; }
-    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; margin-top:32px; }
-    .card { position:relative; display:block; min-height:245px; padding:28px; overflow:hidden; border:1px solid rgba(29,35,43,.09); border-radius:24px; background:white; color:inherit; text-decoration:none; box-shadow:0 18px 45px rgba(29,35,43,.07); transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease; touch-action:manipulation; -webkit-touch-callout:none; }
-    .card:after { content:'→'; position:absolute; top:27px; right:27px; color:var(--muted); font-size:22px; font-weight:900; transition:transform .2s ease,color .2s ease; }
-    .card:hover { transform:translateY(-5px); border-color:rgba(240,100,88,.28); box-shadow:0 26px 58px rgba(29,35,43,.13); }
-    .card:active { transform:translateY(-1px) scale(.985); }
-    .card:hover:after { color:var(--coral); transform:translateX(4px); }
-    .card.assets:hover { border-color:rgba(7,155,155,.30); }
-    .card.assets:hover:after { color:var(--cyan); }
-    .card:focus-visible { outline:3px solid rgba(7,155,155,.30); outline-offset:4px; }
-    .icon { display:grid; place-items:center; width:56px; height:56px; border-radius:18px; color:white; background:var(--ink); font-size:22px; box-shadow:0 9px 22px rgba(29,35,43,.16); }
-    .card.assets .icon { background:var(--cyan); }
-    .card-label { display:block; margin-top:23px; color:var(--coral); font-size:9px; font-weight:900; letter-spacing:1.5px; }
-    .card.assets .card-label { color:var(--cyan); }
-    h2 { margin:7px 0 9px; font-size:24px; }
-    .card p { margin:0; color:var(--muted); line-height:1.55; font-size:13px; }
-    .arrow { display:inline-block; margin-top:22px; padding:8px 11px; border-radius:999px; color:var(--ink); background:var(--paper); font-size:9px; font-weight:900; letter-spacing:.7px; }
-    footer { display:flex; justify-content:space-between; gap:16px; margin-top:24px; padding:18px 4px 0; color:var(--muted); font-size:10px; }
+    :root { --paper:#f4f2ec; --surface:#faf9f5; --ink:#1d232b; --muted:#59636e; --coral:#f06458; --cyan:#079b9b; --line:rgba(29,35,43,.14); }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; padding:32px; background:var(--paper); color:var(--ink); font-family:system-ui,-apple-system,sans-serif; }
+    main { width:min(1100px,100%); margin:48px auto 0; }
+    .tag,.card-label { font:600 12px/1.4 ui-monospace,monospace; color:#a93931; }
+    h1 { margin:12px 0 24px; font-size:clamp(44px,7vw,80px); line-height:1; letter-spacing:-.055em; }
+    .intro { max-width:570px; margin:0; color:var(--muted); font-size:16px; line-height:1.7; }
+    .hero { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; min-height:320px; }
+    .scene { width:100%; aspect-ratio: 5 / 3; display:block; }
+    .feature-row { display:flex; flex-wrap:wrap; gap:8px 24px; margin-top:28px; color:var(--muted); font:500 12px/1.5 ui-monospace,monospace; }
+    .feature-row span + span::before { content:' / '; color:#b0b3b3; margin-right:8px; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:48px; }
+    .card { position:relative; display:flex; flex-direction:column; min-height:208px; padding:24px; border:1px solid var(--line); border-radius:12px; background:var(--surface); color:inherit; text-decoration:none; transition:border-color .16s ease, background-color .16s ease; }
+    .card:hover { border-color:var(--ink); background:#fff; }
+    .card:focus-visible,.ambient-control:focus-visible { outline:3px solid var(--cyan); outline-offset:3px; }
+    .card .icon { display:none; }
+    .card.assets .card-label { color:#076f70; }
+    h2 { margin:8px 0; font-size:22px; letter-spacing:-.02em; }
+    .card p { max-width:430px; margin:0; color:var(--muted); font-size:14px; line-height:1.55; }
+    .arrow { align-self:flex-start; margin-top:auto; padding-top:24px; font-size:13px; font-weight:650; }
+    .card:first-child .arrow { color:#a93931; }
+    footer { display:flex; justify-content:space-between; gap:16px; margin-top:32px; padding:20px 0; border-top:1px solid var(--line); color:var(--muted); font-size:12px; }
     [hidden] { display:none !important; }
     .project-viewer { position:fixed; z-index:5; inset:0; background:var(--paper); }
     .project-viewer iframe { display:block; width:100%; height:100%; border:0; background:var(--paper); }
     body.viewer-open { overflow:hidden; padding:0; }
     .ambient-control.game-view { display:none; }
-    .ambient-control { position:fixed; z-index:10; top:16px; right:16px; min-height:38px; padding:0 16px; border:1px solid rgba(29,35,43,.12); border-radius:999px; color:var(--ink); background:rgba(255,255,255,.94); box-shadow:0 10px 26px rgba(29,35,43,.10); font:900 9px/1 system-ui,sans-serif; letter-spacing:.7px; cursor:pointer; }
-    .ambient-control:hover { color:white; background:var(--cyan); }
-    @media(max-width:620px) { body{padding:10px} main{padding:28px 20px;border-radius:22px} .grid{grid-template-columns:1fr}.card{min-height:225px} h1{letter-spacing:-2px} footer{display:block} footer span{display:block;margin-top:8px} .ambient-control{top:8px;right:8px;min-height:44px;padding:0 14px;font-size:8px;touch-action:manipulation} }
+    .ambient-control { position:absolute; z-index:10; top:24px; right:32px; min-height:40px; padding:0 16px; border:1px solid var(--line); border-radius:8px; color:var(--ink); background:var(--surface); font:600 12px system-ui,sans-serif; cursor:pointer; }
+    .ambient-control:hover { background:#fff; }
+    @media(max-width:700px) { body{padding:20px} main{margin-top:60px} .hero{grid-template-columns:1fr;gap:24px;min-height:0} h1{font-size:clamp(38px,10vw,68px)} .scene{max-height:200px} .grid{grid-template-columns:1fr;margin-top:32px} .card{min-height:180px} footer{display:block;line-height:1.6} footer span{display:block;margin-top:8px} .ambient-control{top:16px;right:20px;min-height:44px} }
   </style>
 </head>
 <body>
   <button class="ambient-control" id="ambient-control" type="button" aria-pressed="true" aria-label="Turn page music off">♪ MUSIC 20%</button>
   <audio id="page-music" src="assets/audio/background-calm-loop.wav" loop autoplay preload="auto"></audio>
   <main id="landing">
-    <div class="tag">A PHASE-SHIFTING PLATFORMER</div>
+    <div class="hero"><div>
+    <div class="tag">A phase-shifting platformer</div>
     <h1>MONO//SHIFT</h1>
     <p class="intro">Switch between Coral and Cyan to reveal the path beneath you. Move through ten handcrafted levels, collect signals, avoid hazards, and reach each exit with the right phase and perfect timing.</p>
-    <div class="feature-row" aria-label="Game features"><span>10 HANDCRAFTED LEVELS</span><span>PHASE-SHIFT MECHANIC</span><span>STAR-BASED SCORING</span><span>DESKTOP + MOBILE</span><span>OFFLINE PLAY</span></div>
+    </div><svg class="scene" viewBox="0 0 500 300" role="img" aria-label="The MONO SHIFT character crosses Coral and Cyan platforms toward the exit"><rect x="1" y="1" width="498" height="298" rx="12" fill="#faf9f5" stroke="#deddd7"/><path d="M42 215h128" stroke="#f06458" stroke-width="8" stroke-linecap="round"/><path d="M192 215h116" stroke="#079b9b" stroke-width="3" stroke-dasharray="8 8"/><path d="M330 215h128" stroke="#f06458" stroke-width="8" stroke-linecap="round"/><rect x="93" y="181" width="22" height="30" rx="7" fill="#1d232b"/><rect x="108" y="189" width="3" height="6" rx="1.5" fill="white"/><path d="M99 203h10" stroke="#f06458" stroke-width="3"/><path d="M402 211v-29a18 18 0 0 1 36 0v29" fill="none" stroke="#1d232b" stroke-width="4"/><circle cx="430" cy="199" r="2.5" fill="#f06458"/><path d="M241 172l6 -6 6 6 -6 6z" fill="none" stroke="#079b9b" stroke-width="2"/></svg></div>
+    <div class="feature-row" aria-label="Game features"><span>10 handcrafted levels</span><span>Coral / Cyan phases</span><span>Star-based scoring</span><span>Desktop + mobile</span><span>Offline play</span></div>
     <div class="grid">
       <a class="card" href="game.html" data-view="game">
         <div class="icon">▶</div>
-        <span class="card-label">START YOUR RUN</span>
+        <span class="card-label">Start your run</span>
         <h2>Play MONO//SHIFT</h2>
         <p>Take on all ten levels, collect every signal, beat the target times, and build your best score across the complete run.</p>
-        <span class="arrow">PLAY NOW →</span>
+        <span class="arrow">Play now →</span>
       </a>
       <a class="card assets" href="game-design.html" data-view="assets">
         <div class="icon">◆</div>
-        <span class="card-label">BEHIND THE GAME</span>
+        <span class="card-label">Behind the game</span>
         <h2>Explore the Game Design</h2>
         <p>Discover the player states, phase platforms, hazards, collectibles, interface components, visual feedback, and sound design that shape the experience.</p>
-        <span class="arrow">VIEW GAME SYSTEMS →</span>
+        <span class="arrow">View game systems →</span>
       </a>
     </div>
     <footer><b>Concept, direction, and testing by Rahmathullah / Designwithrahma.</b><span>© 2026 All rights reserved.</span></footer>

@@ -1,0 +1,20 @@
+# Local secrets and credentials
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets.json
+id_rsa
+id_ed25519
+
+# Local tools and generated files
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+.DS_Store
+*.log
+*.zip

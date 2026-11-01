@@ -68,6 +68,12 @@ See [`SECURITY.md`](SECURITY.md) for the full security scope.
 
 MONO//SHIFT does not send gameplay records to a server. Scores and settings stay in the browser through `localStorage`. Clearing browser storage removes them.
 
+## Interface refinement
+
+The responsive UI was refined using the [Unslop methodology](https://github.com/heydamir/unslop/tree/main/skills/unslop) by Damir Sokolovsky (CC BY 4.0), adapted to the existing MONO//SHIFT identity. Gameplay, level data, score records, audio and controls remain in the original game implementation.
+
+The initial Git commit did not include four deployment files listed by its provenance manifest. This update recreates functional `.gitignore`, `.htaccess`, `.nojekyll`, and GitHub Actions configuration; their recorded hashes identify the replacements, not recovered originals.
+
 ## Repository verification
 
 Run:
