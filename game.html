@@ -475,6 +475,22 @@
       .frame:not(.ui-mode) .responsive-level { display:none; }
       .frame:not(.ui-mode) { padding-top:52px; min-height:0; }
       .control { width:56px; min-width:56px; height:56px; min-height:56px; }
+      /* Fullscreen occupies the entire viewport, so fit the world below the
+         toolbar and HUD rather than letting its 16:9 height run off-screen. */
+      .frame.pseudo-fullscreen:not(.ui-mode) canvas,
+      .frame:fullscreen:not(.ui-mode) canvas,
+      .frame:-webkit-full-screen:not(.ui-mode) canvas {
+        width:min(100vw, calc((100dvh - 96px) * 1.77778));
+        height:auto;
+        margin:0 auto;
+      }
+      .frame.pseudo-fullscreen:not(.ui-mode) .mobile-controls,
+      .frame:fullscreen:not(.ui-mode) .mobile-controls,
+      .frame:-webkit-full-screen:not(.ui-mode) .mobile-controls {
+        left:50%; right:auto; bottom:8px;
+        width:min(calc(100vw - 16px), calc((100dvh - 96px) * 1.77778 - 16px));
+        transform:translateX(-50%);
+      }
     }
 
   </style>
